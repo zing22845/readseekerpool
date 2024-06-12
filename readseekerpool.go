@@ -98,3 +98,19 @@ func (p *ReadSeekerPool) Put(rs io.ReadSeeker) {
 	p.pool.Put(rs)
 	<-p.currCount
 }
+
+func (p *ReadSeekerPool) Close() {
+	close(p.currCount)
+}
+
+func (p *ReadSeekerPool) Len() int {
+	return len(p.currCount)
+}
+
+func (p *ReadSeekerPool) Cap() int {
+	return p.poolSize
+}
+
+func (p *ReadSeekerPool) Type() string {
+	return p.rsType
+}
