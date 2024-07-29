@@ -45,10 +45,10 @@ func main() {
     poolSize := 20
     rsp, err := readseekerpool.NewReadSeekerPool(
         storageType,
-		poolSize,
-		s3client,
-		"bucket-name",
-		keys)
+	poolSize,
+	s3client,
+	"bucket-name",
+	keys)
 
     // Get a ReadSeeker from the pool
     rs, err := rsp.Get()
