@@ -38,9 +38,8 @@ func main() {
     // define keys: keys is a series of slices of a file，that we can seek and read
     // We can read and seek through this series of slices just like reading one file
     keys := []string{
-		"object_slice1",
-        "object_slice2",
-	}
+	"object_slice1",
+	"object_slice2"}
     storageType := "s3"
     poolSize := 20
     rsp, err := readseekerpool.NewReadSeekerPool(
