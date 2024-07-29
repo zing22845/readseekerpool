@@ -32,40 +32,48 @@ import (
 )
 
 func main() {
-    pool := readseekerpool.New()
+    // create s3 client
+    s3Client := ...
 
-    // Open a file
-    file, err := os.Open("example.txt")
-    if err != nil {
-        log.Fatal(err)
-    }
-    defer file.Close()
+    // define keys: keys is a series of slices of a file，that we can seek and read
+    // We can read and seek through this series of slices just like reading one file
+    keys := []string{
+		"object_slice1",
+        "object_slice2",
+	}
+    storageType := "s3"
+    poolSize := 20
+    rsp, err := readseekerpool.NewReadSeekerPool(
+        storageType,
+		poolSize,
+		s3client,
+		"bucket-name",
+		keys)
 
     // Get a ReadSeeker from the pool
-    rs, err := pool.Get(file)
+    rs, err := rsp.Get()
     if err != nil {
         log.Fatal(err)
     }
+    defer rsp.Put(rs)
 
     // Use the ReadSeeker
     // ...
 
-    // Put the ReadSeeker back into the pool
-    pool.Put(rs)
 }
 ```
 
-## API
+## Main API
 
-### `New() *ReadSeekerPool`
+### `NewReadSeekerPool(rsType string, poolSize int, params ...interface{}) (rsp *ReadSeekerPool, err error)`
 
 Creates a new instance of `ReadSeekerPool`.
 
-### `Get(rs io.ReadSeeker) (io.ReadSeeker, error)`
+### `(p *ReadSeekerPool) Get() (io.ReadSeeker, error)`
 
 Fetches a `ReadSeeker` from the pool. If the pool is empty, it creates a new one.
 
-### `Put(rs io.ReadSeeker)`
+### `(p *ReadSeekerPool) Put(rs io.ReadSeeker)`
 
 Returns a `ReadSeeker` to the pool for reuse.
 
