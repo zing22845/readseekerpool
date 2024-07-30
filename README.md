@@ -7,7 +7,7 @@ ReadSeekerPool is a Go package designed to manage a pool of `io.ReadSeeker` obje
 ## Features
 
 - **Efficient Resource Management**: Pools `io.ReadSeeker` objects to reduce memory allocations and improve performance.
-- **Ease of Use**: Simplifies the management of `io.ReadSeeker` objects in your applications.
+- **Ease of Use**: Simplifies the management of `io.ReadSeeker` objects in your applications. It also supports combining slices of a file and reading/seeking them as one logical file.
 - **Compatibility**: Designed to work seamlessly with other Go packages and standard libraries.
 
 ## Installation
